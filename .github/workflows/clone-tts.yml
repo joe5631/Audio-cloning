@@ -14,9 +14,6 @@ jobs:
     if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     timeout-minutes: 90
-    env:
-      CLONE_TMP: ${{ runner.temp }}/clone-task
-      CLONE_BRANCH: arena/e599117f-audio-cloning
     steps:
       - uses: actions/checkout@v4
         with:
@@ -30,6 +27,7 @@ jobs:
 
       - name: phase ref (fetch reference, cut 5s, signal REF_DOWNLOADED)
         run: |
+          export CLONE_TMP="${RUNNER_TEMP:-/tmp}/clone-task"
           mkdir -p "$CLONE_TMP"
           bash clone-task/run.sh ref 2>&1 | tee -a "$CLONE_TMP/phase.log"
 
@@ -38,14 +36,26 @@ jobs:
           python-version: "3.11"
 
       - name: phase deps
-        run: bash clone-task/run.sh deps 2>&1 | tee -a "$CLONE_TMP/phase.log"
+        run: |
+          export CLONE_TMP="${RUNNER_TEMP:-/tmp}/clone-task"
+          mkdir -p "$CLONE_TMP"
+          bash clone-task/run.sh deps 2>&1 | tee -a "$CLONE_TMP/phase.log"
 
       - name: phase model (download ONNX package, verify hashes)
-        run: bash clone-task/run.sh model 2>&1 | tee -a "$CLONE_TMP/phase.log"
+        run: |
+          export CLONE_TMP="${RUNNER_TEMP:-/tmp}/clone-task"
+          mkdir -p "$CLONE_TMP"
+          bash clone-task/run.sh model 2>&1 | tee -a "$CLONE_TMP/phase.log"
 
       - name: phase synth (smoke + full text, encrypt, commit result)
-        run: bash clone-task/run.sh synth 2>&1 | tee -a "$CLONE_TMP/phase.log"
+        run: |
+          export CLONE_TMP="${RUNNER_TEMP:-/tmp}/clone-task"
+          mkdir -p "$CLONE_TMP"
+          bash clone-task/run.sh synth 2>&1 | tee -a "$CLONE_TMP/phase.log"
 
       - name: report failure
         if: failure()
-        run: bash clone-task/run.sh report-failure
+        run: |
+          export CLONE_TMP="${RUNNER_TEMP:-/tmp}/clone-task"
+          mkdir -p "$CLONE_TMP"
+          bash clone-task/run.sh report-failure
