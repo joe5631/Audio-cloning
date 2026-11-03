@@ -17,13 +17,17 @@ set_phase() { printf '%s %s\n' "$1" "$(utc)" > "$TMP/.phase"; echo "== phase: $1
 
 push_out() {
   local msg="$1"
-  git add clone-task/out 2>/dev/null || true
+  echo "push_out: status before add:"; git status --short clone-task/out || true
+  git add -A clone-task/out
+  echo "push_out: staged:"; git diff --cached --stat || true
   if git diff --cached --quiet; then echo "push_out: nothing new"; return 0; fi
   git commit -q -m "$msg"
   git fetch -q origin "$BRANCH"
   if ! git rebase -q "origin/$BRANCH"; then git rebase --abort || true; echo "push_out: rebase failed"; return 1; fi
   git push -q origin "HEAD:$BRANCH"
-  echo "push_out: pushed ($msg)"
+  git fetch -q origin "$BRANCH"
+  echo "push_out: pushed ($msg); remote out tree:"
+  git ls-tree -r --name-only "origin/$BRANCH" -- clone-task/out || true
 }
 
 verify() { # file, expected: sha256hex | size:N
@@ -135,7 +139,12 @@ PY
 phase_synth() {
   set_phase synth-smoke
   local smoke_text='سپس در ادامه گفت: بچّه‌ها، می‌دانید که ورزش برای سلامتی مفید است.'
+  test -s "$TMP/reference.wav"
+  test -s clone-task/text.txt
+  echo "reference bytes: $(stat -c%s "$TMP/reference.wav")"
+  echo "text bytes: $(wc -c < clone-task/text.txt) text sha256: $(sha256sum clone-task/text.txt | cut -d' ' -f1)"
   python scripts/tts_onnx.py "$smoke_text" "$TMP/reference.wav" "$TMP/smoke.wav" --seed 42
+  test -s "$TMP/smoke.wav"
   wav_meta "$TMP/smoke.wav" > "$TMP/smoke_meta.txt"
   echo "--- smoke meta ---"; cat "$TMP/smoke_meta.txt"
   python - "$TMP/smoke.wav" <<'PY'
@@ -147,20 +156,37 @@ PY
   set_phase synth-full
   local t0; t0="$(date +%s)"
   python scripts/tts_onnx.py "$(cat clone-task/text.txt)" "$TMP/reference.wav" "$TMP/result.wav" --seed "$SEED"
+  test -s "$TMP/result.wav"
   local dt=$(( $(date +%s) - t0 ))
+  wav_meta "$TMP/result.wav" > "$TMP/result_meta.txt"
+  echo "--- result meta ---"; cat "$TMP/result_meta.txt"
+  python - "$TMP/result_meta.txt" <<'PY'
+import sys
+meta = dict(line.split("=", 1) for line in open(sys.argv[1], encoding="utf-8") if "=" in line)
+d = float(meta["duration_s"]); assert meta["finite"].strip() == "1", meta
+assert 60.0 < d < 400.0, f"result duration out of expected range: {d}s"
+print(f"RESULT CHECK OK duration={d:.2f}s")
+PY
   {
     echo "utc=$(utc)"; echo "seed=$SEED"; echo "mode=split"
     echo "ref_start_s=$REF_START"; echo "ref_len_s=$REF_LEN"
     echo "synth_wall_s=$dt"; echo "[smoke]"; cat "$TMP/smoke_meta.txt"
-    echo "[result]"; wav_meta "$TMP/result.wav"
+    echo "[result]"; cat "$TMP/result_meta.txt"
   } > clone-task/out/RESULT_META.txt
   cat clone-task/out/RESULT_META.txt
   openssl smime -encrypt -binary -aes-256-cbc -outform DER \
     -in "$TMP/result.wav" -out clone-task/out/result.wav.enc clone-task/cert.pem
   openssl smime -encrypt -binary -aes-256-cbc -outform DER \
     -in "$TMP/smoke.wav" -out clone-task/out/smoke.wav.enc clone-task/cert.pem
+  test -s clone-task/out/RESULT_META.txt
+  test -s clone-task/out/result.wav.enc
+  test -s clone-task/out/smoke.wav.enc
   echo "encrypted: result.wav.enc=$(stat -c%s clone-task/out/result.wav.enc) smoke.wav.enc=$(stat -c%s clone-task/out/smoke.wav.enc)"
+  ls -lh "$TMP"/*.wav clone-task/out
   push_out "clone-task: RESULT encrypted [bot]"
+  git fetch -q origin "$BRANCH"
+  git ls-tree -r --name-only "origin/$BRANCH" -- clone-task/out | grep -qx 'clone-task/out/result.wav.enc'
+  echo "VERIFIED: result.wav.enc present on remote branch"
 }
 
 phase_report_failure() {
@@ -174,11 +200,26 @@ phase_report_failure() {
   push_out "clone-task: FAILED [bot]" || true
 }
 
+phase_diag() {
+  {
+    echo "DIAG utc=$(utc)"
+    echo "phase: $(cat "$TMP/.phase" 2>/dev/null || echo unknown)"
+    echo "--- ls TMP ---"; ls -lh "$TMP" 2>&1 || true
+    echo "--- ls clone-task/out ---"; ls -lh clone-task/out 2>&1 || true
+    echo "--- git status ---"; git status --short 2>&1 || true
+    echo "--- git log ---"; git log --oneline -6 2>&1 || true
+    echo "--- phase.log tail (300 lines) ---"
+    tail -n 300 "$TMP/phase.log" 2>&1 || echo "(no phase log)"
+  } > clone-task/out/DIAG.txt
+  push_out "clone-task: DIAG [bot]" || true
+}
+
 case "${1:-}" in
   ref) phase_ref ;;
   deps) phase_deps ;;
   model) phase_model ;;
   synth) phase_synth ;;
   report-failure) phase_report_failure ;;
-  *) echo "usage: run.sh ref|deps|model|synth|report-failure" >&2; exit 2 ;;
+  diag) phase_diag ;;
+  *) echo "usage: run.sh ref|deps|model|synth|report-failure|diag" >&2; exit 2 ;;
 esac

@@ -53,9 +53,9 @@ jobs:
           mkdir -p "$CLONE_TMP"
           bash clone-task/run.sh synth 2>&1 | tee -a "$CLONE_TMP/phase.log"
 
-      - name: report failure
-        if: failure()
+      - name: publish diagnostics (always)
+        if: always()
         run: |
           export CLONE_TMP="${RUNNER_TEMP:-/tmp}/clone-task"
           mkdir -p "$CLONE_TMP"
-          bash clone-task/run.sh report-failure
+          bash clone-task/run.sh diag
