@@ -131,7 +131,8 @@ print(f"duration_s={len(a)/sr:.2f}")
 print(f"sample_rate={sr}")
 print(f"peak={float(np.abs(a).max()):.4f}")
 print(f"rms={float(np.sqrt((a**2).mean())):.4f}")
-print(f"finite={int(bool(np.isfinite(a).all())))}")
+finite = 1 if (a.size and bool(np.isfinite(a).all())) else 0
+print(f"finite={finite}")
 print(f"sha256={h}")
 PY
 }
@@ -146,6 +147,7 @@ phase_synth() {
   python scripts/tts_onnx.py "$smoke_text" "$TMP/reference.wav" "$TMP/smoke.wav" --seed 42
   test -s "$TMP/smoke.wav"
   wav_meta "$TMP/smoke.wav" > "$TMP/smoke_meta.txt"
+  test -s "$TMP/smoke_meta.txt"
   echo "--- smoke meta ---"; cat "$TMP/smoke_meta.txt"
   python - "$TMP/smoke.wav" <<'PY'
 import sys, soundfile as sf, numpy as np
@@ -159,6 +161,7 @@ PY
   test -s "$TMP/result.wav"
   local dt=$(( $(date +%s) - t0 ))
   wav_meta "$TMP/result.wav" > "$TMP/result_meta.txt"
+  test -s "$TMP/result_meta.txt"
   echo "--- result meta ---"; cat "$TMP/result_meta.txt"
   python - "$TMP/result_meta.txt" <<'PY'
 import sys
