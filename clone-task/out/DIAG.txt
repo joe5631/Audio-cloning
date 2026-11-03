@@ -1,107 +1,32 @@
-DIAG utc=2026-11-03T12:46:07Z
-phase: synth-smoke 2026-11-03T12:45:47Z
+DIAG utc=2026-11-03T12:53:23Z
+phase: synth-full 2026-11-03T12:49:43Z
 --- ls TMP ---
-total 3.9M
--rw-r--r-- 1 runner runner  28K Nov  3 12:46 phase.log
--rw-r--r-- 1 runner runner 235K Nov  3 12:45 reference.wav
--rw-r--r-- 1 runner runner 471K Nov  3 12:46 smoke.wav
--rw-r--r-- 1 runner runner    0 Nov  3 12:46 smoke_meta.txt
--rw-r--r-- 1 runner runner 3.1M Nov  3 12:44 src_audio.bin
+total 14M
+-rw-r--r-- 1 runner runner  35K Nov  3 12:53 phase.log
+-rw-r--r-- 1 runner runner 235K Nov  3 12:49 reference.wav
+-rw-r--r-- 1 runner runner 9.3M Nov  3 12:53 result.wav
+-rw-r--r-- 1 runner runner  140 Nov  3 12:53 result_meta.txt
+-rw-r--r-- 1 runner runner 471K Nov  3 12:49 smoke.wav
+-rw-r--r-- 1 runner runner  139 Nov  3 12:49 smoke_meta.txt
+-rw-r--r-- 1 runner runner 3.1M Nov  3 12:48 src_audio.bin
 --- ls clone-task/out ---
-total 12K
--rw-r--r-- 1 runner runner 410 Nov  3 12:46 DIAG.txt
--rw-r--r-- 1 runner runner  47 Nov  3 12:45 MODEL_READY
--rw-r--r-- 1 runner runner  58 Nov  3 12:44 REF_DOWNLOADED
+total 9.8M
+-rw-r--r-- 1 runner runner  525 Nov  3 12:53 DIAG.txt
+-rw-r--r-- 1 runner runner   47 Nov  3 12:49 MODEL_READY
+-rw-r--r-- 1 runner runner   58 Nov  3 12:48 REF_DOWNLOADED
+-rw-r--r-- 1 runner runner  386 Nov  3 12:53 RESULT_META.txt
+-rw-r--r-- 1 runner runner 9.3M Nov  3 12:53 result.wav.enc
+-rw-r--r-- 1 runner runner 471K Nov  3 12:53 smoke.wav.enc
 --- git status ---
-?? clone-task/out/DIAG.txt
+ M clone-task/out/DIAG.txt
 --- git log ---
+21d9a17 clone-task: RESULT encrypted [bot]
+355a0f0 clone-task: MODEL_READY [bot]
+c78ead8 clone-task: REF_DOWNLOADED [bot]
+a38daf9 clone-task: fix wav_meta SyntaxError + pipefail shell; retrigger
+668dfce clone-task: DIAG [bot]
 e7591cf clone-task: MODEL_READY [bot]
-e8e4522 clone-task: REF_DOWNLOADED [bot]
-0ffcc5e clone-task: strict synth checks + always publish diagnostics; retrigger
-042f0c2 clone-task: MODEL_READY [bot]
-90df443 clone-task: REF_DOWNLOADED [bot]
-bf32ea4 clone-task: fix workflow (CLONE_TMP per-step) and trigger run
 --- phase.log tail (300 lines) ---
-Unpacking libmysofa1:amd64 (1.3.2+dfsg-2ubuntu2) ...
-Selecting previously unselected package libplacebo338:amd64.
-Preparing to unpack .../55-libplacebo338_6.338.2-2build1_amd64.deb ...
-Unpacking libplacebo338:amd64 (6.338.2-2build1) ...
-Selecting previously unselected package libblas3:amd64.
-Preparing to unpack .../56-libblas3_3.12.0-3build1.1_amd64.deb ...
-Unpacking libblas3:amd64 (3.12.0-3build1.1) ...
-Selecting previously unselected package liblapack3:amd64.
-Preparing to unpack .../57-liblapack3_3.12.0-3build1.1_amd64.deb ...
-Unpacking liblapack3:amd64 (3.12.0-3build1.1) ...
-Selecting previously unselected package libasyncns0:amd64.
-Preparing to unpack .../58-libasyncns0_0.8-6build4_amd64.deb ...
-Unpacking libasyncns0:amd64 (0.8-6build4) ...
-Selecting previously unselected package libflac12t64:amd64.
-Preparing to unpack .../59-libflac12t64_1.4.3+ds-2.1ubuntu2_amd64.deb ...
-Unpacking libflac12t64:amd64 (1.4.3+ds-2.1ubuntu2) ...
-Selecting previously unselected package libsndfile1:amd64.
-Preparing to unpack .../60-libsndfile1_1.2.2-1ubuntu5.24.04.1_amd64.deb ...
-Unpacking libsndfile1:amd64 (1.2.2-1ubuntu5.24.04.1) ...
-Selecting previously unselected package libpulse0:amd64.
-Preparing to unpack .../61-libpulse0_1%3a16.1+dfsg1-2ubuntu10.1_amd64.deb ...
-Unpacking libpulse0:amd64 (1:16.1+dfsg1-2ubuntu10.1) ...
-Selecting previously unselected package libsphinxbase3t64:amd64.
-Preparing to unpack .../62-libsphinxbase3t64_0.8+5prealpha+1-17build2_amd64.deb ...
-Unpacking libsphinxbase3t64:amd64 (0.8+5prealpha+1-17build2) ...
-Selecting previously unselected package libpocketsphinx3:amd64.
-Preparing to unpack .../63-libpocketsphinx3_0.8.0+real5prealpha+1-15ubuntu5_amd64.deb ...
-Unpacking libpocketsphinx3:amd64 (0.8.0+real5prealpha+1-15ubuntu5) ...
-Selecting previously unselected package libpostproc57:amd64.
-Preparing to unpack .../64-libpostproc57_7%3a6.1.1-3ubuntu5_amd64.deb ...
-Unpacking libpostproc57:amd64 (7:6.1.1-3ubuntu5) ...
-Selecting previously unselected package libsamplerate0:amd64.
-Preparing to unpack .../65-libsamplerate0_0.2.2-4build1_amd64.deb ...
-Unpacking libsamplerate0:amd64 (0.2.2-4build1) ...
-Selecting previously unselected package librubberband2:amd64.
-Preparing to unpack .../66-librubberband2_3.3.0+dfsg-2build1_amd64.deb ...
-Unpacking librubberband2:amd64 (3.3.0+dfsg-2build1) ...
-Selecting previously unselected package libswscale7:amd64.
-Preparing to unpack .../67-libswscale7_7%3a6.1.1-3ubuntu5_amd64.deb ...
-Unpacking libswscale7:amd64 (7:6.1.1-3ubuntu5) ...
-Selecting previously unselected package libvidstab1.1:amd64.
-Preparing to unpack .../68-libvidstab1.1_1.1.0-2build1_amd64.deb ...
-Unpacking libvidstab1.1:amd64 (1.1.0-2build1) ...
-Selecting previously unselected package libzimg2:amd64.
-Preparing to unpack .../69-libzimg2_3.0.5+ds1-1build1_amd64.deb ...
-Unpacking libzimg2:amd64 (3.0.5+ds1-1build1) ...
-Selecting previously unselected package libavfilter9:amd64.
-Preparing to unpack .../70-libavfilter9_7%3a6.1.1-3ubuntu5_amd64.deb ...
-Unpacking libavfilter9:amd64 (7:6.1.1-3ubuntu5) ...
-Selecting previously unselected package libcaca0:amd64.
-Preparing to unpack .../71-libcaca0_0.99.beta20-4ubuntu0.2_amd64.deb ...
-Unpacking libcaca0:amd64 (0.99.beta20-4ubuntu0.2) ...
-Selecting previously unselected package libcdio19t64:amd64.
-Preparing to unpack .../72-libcdio19t64_2.1.0-4.1ubuntu1.2_amd64.deb ...
-Unpacking libcdio19t64:amd64 (2.1.0-4.1ubuntu1.2) ...
-Selecting previously unselected package libcdio-cdda2t64:amd64.
-Preparing to unpack .../73-libcdio-cdda2t64_10.2+2.0.1-1.1build2_amd64.deb ...
-Unpacking libcdio-cdda2t64:amd64 (10.2+2.0.1-1.1build2) ...
-Selecting previously unselected package libcdio-paranoia2t64:amd64.
-Preparing to unpack .../74-libcdio-paranoia2t64_10.2+2.0.1-1.1build2_amd64.deb ...
-Unpacking libcdio-paranoia2t64:amd64 (10.2+2.0.1-1.1build2) ...
-Selecting previously unselected package libdc1394-25:amd64.
-Preparing to unpack .../75-libdc1394-25_2.2.6-4build1_amd64.deb ...
-Unpacking libdc1394-25:amd64 (2.2.6-4build1) ...
-Selecting previously unselected package libiec61883-0:amd64.
-Preparing to unpack .../76-libiec61883-0_1.2.0-6build1_amd64.deb ...
-Unpacking libiec61883-0:amd64 (1.2.0-6build1) ...
-Selecting previously unselected package libjack-jackd2-0:amd64.
-Preparing to unpack .../77-libjack-jackd2-0_1.9.21~dfsg-3ubuntu3_amd64.deb ...
-Unpacking libjack-jackd2-0:amd64 (1.9.21~dfsg-3ubuntu3) ...
-Selecting previously unselected package libopenal-data.
-Preparing to unpack .../78-libopenal-data_1%3a1.23.1-4build1_all.deb ...
-Unpacking libopenal-data (1:1.23.1-4build1) ...
-Selecting previously unselected package libsndio7.0:amd64.
-Preparing to unpack .../79-libsndio7.0_1.9.0-0.3build3_amd64.deb ...
-Unpacking libsndio7.0:amd64 (1.9.0-0.3build3) ...
-Selecting previously unselected package libopenal1:amd64.
-Preparing to unpack .../80-libopenal1_1%3a1.23.1-4build1_amd64.deb ...
-Unpacking libopenal1:amd64 (1:1.23.1-4build1) ...
-Selecting previously unselected package libdecor-0-0:amd64.
 Preparing to unpack .../81-libdecor-0-0_0.2.2-1build2_amd64.deb ...
 Unpacking libdecor-0-0:amd64 (0.2.2-1build2) ...
 Selecting previously unselected package libsdl2-2.0-0:amd64.
@@ -272,7 +197,7 @@ No user sessions are running outdated binaries.
 No VM guests are running outdated hypervisor (qemu) binaries on this host.
 reference.wav ready: 240078 bytes (start=71.0s len=5s)
 == phase: deps ==
-[0;93m2026-11-03 12:45:34.903646278 [W:onnxruntime:Default, device_discovery.cc:95 GetPciBusId] Skipping pci_bus_id for PCI path at "/sys/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0004:00/MSFT1000:00/5620e0c7-8062-4dce-aeb7-520c7ef76171" because filename "5620e0c7-8062-4dce-aeb7-520c7ef76171" did not match expected pattern of [0-9a-f]+:[0-9a-f]+:[0-9a-f]+[.][0-9a-f]+[m
+[0;93m2026-11-03 12:49:18.563770105 [W:onnxruntime:Default, device_discovery.cc:95 GetPciBusId] Skipping pci_bus_id for PCI path at "/sys/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0004:00/MSFT1000:00/5620e0c7-8062-4dce-aeb7-520c7ef76171" because filename "5620e0c7-8062-4dce-aeb7-520c7ef76171" did not match expected pattern of [0-9a-f]+:[0-9a-f]+:[0-9a-f]+[.][0-9a-f]+[m
 deps ok: ort 1.31.1 | numpy 2.4.6 | scipy 1.17.1 | soundfile 0.14.0
 == phase: model ==
 >> download manifest.json (try 1)
@@ -309,16 +234,96 @@ push_out: staged:
  clone-task/out/MODEL_READY | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 push_out: pushed (clone-task: MODEL_READY [bot]); remote out tree:
+clone-task/out/DIAG.txt
 clone-task/out/MODEL_READY
 clone-task/out/REF_DOWNLOADED
 == phase: synth-smoke ==
 reference bytes: 240078
 text bytes: 2825 text sha256: 946805dc96747acc452a5152fed4f14434a87e67c27348ea5367433801c2b262
-[0;93m2026-11-03 12:45:47.871915199 [W:onnxruntime:Default, device_discovery.cc:95 GetPciBusId] Skipping pci_bus_id for PCI path at "/sys/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0004:00/MSFT1000:00/5620e0c7-8062-4dce-aeb7-520c7ef76171" because filename "5620e0c7-8062-4dce-aeb7-520c7ef76171" did not match expected pattern of [0-9a-f]+:[0-9a-f]+:[0-9a-f]+[.][0-9a-f]+[m
+[0;93m2026-11-03 12:49:30.767414079 [W:onnxruntime:Default, device_discovery.cc:95 GetPciBusId] Skipping pci_bus_id for PCI path at "/sys/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0004:00/MSFT1000:00/5620e0c7-8062-4dce-aeb7-520c7ef76171" because filename "5620e0c7-8062-4dce-aeb7-520c7ef76171" did not match expected pattern of [0-9a-f]+:[0-9a-f]+:[0-9a-f]+[.][0-9a-f]+[m
 phonemes: sepas dar ?edAme goft baCCehA midAnid ke varzeS barAye salAmati mofid ?ast
 text: سپس در ادامه گفت: بچّه‌ها، می‌دانید که ورزش برای سلامتی مفید است.
-generated 10.03s audio in 19.10s -> /home/runner/work/_temp/clone-task/smoke.wav
-  File "<stdin>", line 10
-    print(f"finite={int(bool(np.isfinite(a).all())))}")
-                                                      ^
-SyntaxError: f-string: unmatched ')'
+generated 10.03s audio in 12.10s -> /home/runner/work/_temp/clone-task/smoke.wav
+--- smoke meta ---
+duration_s=10.03
+sample_rate=24000
+peak=0.3538
+rms=0.0437
+finite=1
+sha256=698eaeda37f57bf663bcd80395575af2d7661c6115f980cd3f04d59a483bd432
+SMOKE OK duration=10.03s
+== phase: synth-full ==
+[0;93m2026-11-03 12:49:43.796523312 [W:onnxruntime:Default, device_discovery.cc:95 GetPciBusId] Skipping pci_bus_id for PCI path at "/sys/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0004:00/MSFT1000:00/5620e0c7-8062-4dce-aeb7-520c7ef76171" because filename "5620e0c7-8062-4dce-aeb7-520c7ef76171" did not match expected pattern of [0-9a-f]+:[0-9a-f]+:[0-9a-f]+[.][0-9a-f]+[m
+phonemes: sepas dar ?edAme goft baCCehA midAnid ke varzeS barAye salAmati mofid ?ast behtar ?ast hamegiye1 mA har ruz barnAmei barAye varzeS kardan dASte bASim ?agar varzeSi rA bA nazm va tartib va peyvaste ?anjAm dahim mitavAnim bexubi dar ?An reSte piSraft konim barAye varzeS kardan be surate1 herfe?i ?avval reSteye1 varzeSiye1 morede1 ?alAqeye1 xod rA ?entexAb konid sepas dar ?An reSte ?AmuzeS bebinid va tamrin konid ?An ruz ba?d ?az ta?tiliye madrese hamrAhe1 dustam be tarafe1 xAne rAh ?oftAdim ?az ?u porsidam rAsti to kodAm reSteye1 varzeSi rA biStar ?az hame dust dAri javAb dAd tA behAl behAl be ?in mozu? fekr nakardeam futbAl yA SAyad ham basketbAl to Cetor goftam ?albate man ham futbAl rA xeyli dust dAram ?amA be SenA kardan ?alAqeye1 biStari dAram rAsteS rA bexAhi pas ?az goftoguhAye zange1 varzeS tasmim gereftam dar dorehAye ?AmuzeSi SenA Serkat konam fardAye1 ?An ruz bA dustam be ?estaxr raftim jeloye dar neveStei nazaram rA jalb kard be farzandAne1 xod SenA biyAmuzid vAred Sodim kafSA va lebAshAyemAn rA dar mahale1 maxsus gozAStim duS gereftim va vArede1 sAlone1 ?asli Sodim dustam barAye SenA raft ?ama man modati be jonbojuSe baCCehA dar ?estaxr negA kardam ba?zi ?az ?AnhA besyAr mAherAne SenA mikardand be tarafe1 morabbi SenA ke kenAreye1 ?estaxr ?istAde bud roftam salAm kardam va goftam ba?zi ?az baCCehA xeili xub SenA mikanand man ham dust dAram mesleye1 ?AnhA SenA konam momken ?ast marA rAhnamAyi konid pas ?az sohbathAye morabbiye1 SenA dar dureye ?AmuzeSi nAmnevisi kardam ruzhA nazad ?u be tamrin SenA mipardAxtam dar tule1 moddate1 tamrin bArhA zire1 ?Ab miroftam dast ?o pAyam xaste miSod ?amA ba?d ?az ?An saxtihA natijeye1 xubi gereftam va hAlA SenAgare1 mAheri hastam fardA mosAbeqAte1 SenAye1 dAneSAmuzi bargozAr miSavad va man barAye bedast ?Avardan behtarin rotbe talAS xAham kard
+text: سپس در ادامه گفت: «بچّه‌ها، می‌دانید که ورزش برای سلامتی مفید است. بهتر است همگی ما، هر روز برنامه‌ای برای ورزش کردن داشته باشیم. اگر ورزشی را با نظم و ترتیب و پیوسته انجام دهیم، می‌توانیم به‌خوبی در آن رشته، پیشرفت کنیم. برای ورزش کردن به صورت حرفه‌ای، اوّل رشته‌ی ورزشی مورد علاقه‌ی خود را انتخاب کنید، سپس در آن رشته، آموزش ببینید و تمرین کنید.»
+
+آن روز، بعد از تعطیلی مدرسه، همراه دوستم به طرف خانه راه افتادیم. از او پرسیدم: «راستی تو کدام رشته‌ی ورزشی را بیشتر از همه دوست داری؟»
+
+جواب داد: «تا به حال به این موضوع فکر نکرده‌ام. فوتبال یا شاید هم بسکتبال. تو چطور؟»
+
+گفتم: «البتّه من هم فوتبال را خیلی دوست دارم؛ امّا به شنا کردن، علاقه‌ی بیشتری دارم. راستش را بخواهی، پس از گفت‌وگوهای زنگ ورزش، تصمیم گرفتم در دوره‌های آموزشی شنا شرکت کنم.»
+
+فردای آن روز با دوستم به استخر رفتیم. جلوی در، نوشته‌ای نظرم را جلب کرد: «به فرزندان خود شنا بیاموزید.» وارد شدیم. کفش‌ها و لباس‌هایمان را در محلّ مخصوص گذاشتیم. دوش گرفتیم و وارد سالن اصلی شدیم. دوستم برای شنا رفت؛ امّا من مدّتی به جنب‌وجوش بچّه‌ها در استخر نگاه کردم؛ بعضی از آن‌ها بسیار ماهرانه شنا می‌کردند.
+
+به طرف مربّی شنا که کنار استخر ایستاده بود، رفتم. سلام کردم و گفتم: «بعضی از بچّه‌ها خیلی خوب شنا می‌کنند. من هم دوست دارم مثل آن‌ها شنا کنم. ممکن است مرا راهنمایی کنید؟»
+
+پس از صحبت‌های مربّی شنا، در دوره‌ی آموزشی، نام‌نویسی کردم. روزها نزد او به تمرین شنا می‌پرداختم. در طول مدّت تمرین، بارها زیر آب می‌رفتم، دست و پایم خسته می‌شد؛ امّا بعد از آن سختی‌ها، نتیجه‌ی خوبی گرفتم و حالا شناگر ماهری هستم. فردا مسابقات شنای دانش‌آموزی برگزار می‌شود و من برای به‌دست آوردن بهترین رتبه، تلاش خواهم کرد.
+generated 202.96s audio in 215.35s -> /home/runner/work/_temp/clone-task/result.wav
+--- result meta ---
+duration_s=202.96
+sample_rate=24000
+peak=0.3926
+rms=0.0451
+finite=1
+sha256=6df88f85acc5694cfc47b547ffb6a4fe3ae03d2b0413a07f8b32049d5f49af9a
+RESULT CHECK OK duration=202.96s
+utc=2026-11-03T12:53:20Z
+seed=42
+mode=split
+ref_start_s=71.0
+ref_len_s=5
+synth_wall_s=216
+[smoke]
+duration_s=10.03
+sample_rate=24000
+peak=0.3538
+rms=0.0437
+finite=1
+sha256=698eaeda37f57bf663bcd80395575af2d7661c6115f980cd3f04d59a483bd432
+[result]
+duration_s=202.96
+sample_rate=24000
+peak=0.3926
+rms=0.0451
+finite=1
+sha256=6df88f85acc5694cfc47b547ffb6a4fe3ae03d2b0413a07f8b32049d5f49af9a
+encrypted: result.wav.enc=9742503 smoke.wav.enc=482183
+-rw-r--r-- 1 runner runner 235K Nov  3 12:49 /home/runner/work/_temp/clone-task/reference.wav
+-rw-r--r-- 1 runner runner 9.3M Nov  3 12:53 /home/runner/work/_temp/clone-task/result.wav
+-rw-r--r-- 1 runner runner 471K Nov  3 12:49 /home/runner/work/_temp/clone-task/smoke.wav
+
+clone-task/out:
+total 9.8M
+-rw-r--r-- 1 runner runner  19K Nov  3 12:48 DIAG.txt
+-rw-r--r-- 1 runner runner   47 Nov  3 12:49 MODEL_READY
+-rw-r--r-- 1 runner runner   58 Nov  3 12:48 REF_DOWNLOADED
+-rw-r--r-- 1 runner runner  386 Nov  3 12:53 RESULT_META.txt
+-rw-r--r-- 1 runner runner 9.3M Nov  3 12:53 result.wav.enc
+-rw-r--r-- 1 runner runner 471K Nov  3 12:53 smoke.wav.enc
+push_out: status before add:
+?? clone-task/out/RESULT_META.txt
+?? clone-task/out/result.wav.enc
+?? clone-task/out/smoke.wav.enc
+push_out: staged:
+ clone-task/out/RESULT_META.txt |  20 ++++++++++++++++++++
+ clone-task/out/result.wav.enc  | Bin 0 -> 9742503 bytes
+ clone-task/out/smoke.wav.enc   | Bin 0 -> 482183 bytes
+ 3 files changed, 20 insertions(+)
+push_out: pushed (clone-task: RESULT encrypted [bot]); remote out tree:
+clone-task/out/DIAG.txt
+clone-task/out/MODEL_READY
+clone-task/out/REF_DOWNLOADED
+clone-task/out/RESULT_META.txt
+clone-task/out/result.wav.enc
+clone-task/out/smoke.wav.enc
+VERIFIED: result.wav.enc present on remote branch
